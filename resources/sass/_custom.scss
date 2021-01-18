@@ -1,0 +1,37 @@
+
+// Custom CSS
+
+.center-cropped-sm {
+    object-fit: scale-down;
+    object-position: center; /* Center the image within the element */
+    height: 100px;
+    width: 100px;
+}
+
+.center-cropped-md {
+    object-fit: scale-down;
+    object-position: center; /* Center the image within the element */
+    height: 200px;
+    width: 200px;
+}
+
+.center-cropped-lg {
+    object-fit: scale-down;
+    object-position: center; /* Center the image within the element */
+    height: 300px;
+    width: 300px;
+}
+
+.center-cropped-xl {
+    object-fit: scale-down;
+    object-position: center; /* Center the image within the element */
+    height: 400px;
+    width: 400px;
+}
+
+.center-cropped-xxl {
+    object-fit: none; /* Do not scale the image */
+    object-position: center; /* Center the image within the element */
+    height: 500px;
+    width: 500px;
+}
