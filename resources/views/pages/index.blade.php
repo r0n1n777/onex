@@ -1,6 +1,7 @@
 @extends('layouts/app')
 
 @section('content')
+<h1>test</h1>
                 <header class="page-header page-header-dark bg-gradient-primary-to-secondary">
                     <div class="page-header-content">
                         <div class="container">
