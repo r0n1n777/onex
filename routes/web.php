@@ -26,6 +26,9 @@ Route::get('/', function () {
 // ROUTE TO DASHBOARD
 Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home');
 
+// AFFILIATE
+Route::get('affiliates', 'App\Http\Controllers\AFfiliateController@show')->name('affiliates');
+
 // ACCOUNT
 Route::get('profile', 'App\Http\Controllers\AccountController@profile')->name('profile');
 Route::get('payout', 'App\Http\Controllers\AccountController@payout')->name('payout');

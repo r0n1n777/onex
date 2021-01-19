@@ -110,9 +110,8 @@
                                     Overview
                                     <!--<span class="badge badge-primary-soft text-primary ml-auto">Updated</span>-->
                                 </a>
-                                <a class="nav-link text-muted" href="#!">
-                                    Affiliate
-                                   <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span>
+                                <a class="nav-link text-muted" href="{{ route('affiliates') }}">
+                                    Affiliates
                                 </a>
                                 <a class="nav-link text-muted" href="#!">
                                     Earnings
