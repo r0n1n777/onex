@@ -39,12 +39,10 @@ class HomeController extends Controller
     {
         // CHECK IF PROFILE PICTURE EXISTS
         $dp = file_exists('assets/img/dp/'.$id.'.png');
-        if ($dp == true)
-        {
+        if ($dp == true){
             return 'assets/img/dp/'.$id.'.png';
         }
-        else
-        {
+        else {
             return 'assets/img/dp/'.$gender.'.png';
         }
     }

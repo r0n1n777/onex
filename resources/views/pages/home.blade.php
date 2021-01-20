@@ -142,11 +142,10 @@
                             </a>
                         </div>
                     </div>
-                    <a class="card-footer bg-light text-white" href="#!">
+                    <a class="card-footer bg-light text-white" href="{{ route('affiliates') }}">
                         <div class="d-flex align-items-center justify-content-between small text-body">
                             Open Affiliate Page
                             <i data-feather="arrow-right"></i>
-                            <!-- <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span> -->
                         </div>
                     </a>
                 </div>
