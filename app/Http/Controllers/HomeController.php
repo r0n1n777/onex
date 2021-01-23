@@ -61,9 +61,12 @@ class HomeController extends Controller
         $data = array();
         foreach ($users as $k => $v){
             $path = $this->checkDP($v->id, $v->gender);
+            $tier = $this->tier($v->id);
 
             $n = $v;
             $n['path'] = $path;
+            $n['tierLevel'] = $tier->tierLevel;
+            $n['tierTitle'] = $tier->tierTitle;
             $data[$k] = $n;
         }
         return $data;

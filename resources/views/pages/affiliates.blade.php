@@ -34,7 +34,8 @@
                                     <b><i data-feather="at-sign" class="mr-1 align-middle"></i>{{ $user->uname }}</b><br />
                                     <b><i data-feather="phone" class="mr-1 align-middle"></i>{{ $user->phone }}</b><br />
                                     <b><i data-feather="mail" class="mr-1 align-middle"></i>{{ $user->email }}</b><br />
-                                    <b><i data-feather="calendar" class="mr-1 align-middle"></i>Date Joined: {{ date('F d, Y', strtotime($user->created_at)) }}</b>
+                                    <b><i data-feather="calendar" class="mr-1 align-middle"></i>Date Joined: {{ date('F d, Y', strtotime($user->created_at)) }}</b><br />
+                                    <b><img src="{{ asset('assets/img/icons/title'.$tier->tierLevel.'.png') }}" class="img-fluid" style="max-width: 1em" />&nbsp;Tier:&nbsp;{{ $tier->tierLevel}}&nbsp;({{ $tier->tierTitle }})</b>
                                 </p>
                             </div>
                         </div>
@@ -67,7 +68,8 @@
                                         <b><i data-feather="at-sign" class="mr-1 align-middle"></i>{{ $affiliate->uname }}</b><br />
                                         <b><i data-feather="phone" class="mr-1 align-middle"></i>{{ $affiliate->phone }}</b><br />
                                         <b><i data-feather="mail" class="mr-1 align-middle"></i>{{ $affiliate->email }}</b><br />
-                                        <b><i data-feather="calendar" class="mr-1 align-middle"></i>Date Joined: {{ date('F d, Y', strtotime($affiliate->created_at)) }}</b>
+                                        <b><i data-feather="calendar" class="mr-1 align-middle"></i>Date Joined: {{ date('F d, Y', strtotime($affiliate->created_at)) }}</b><br />
+                                        <b><img src="{{ asset('assets/img/icons/title'.$affiliate->tierLevel.'.png') }}" class="img-fluid" style="max-width: 1em" />&nbsp;Tier:&nbsp;{{ $affiliate->tierLevel}}&nbsp;({{ $affiliate->tierTitle }})</b>
                                     </p>
                                 </div>
                             </div>
