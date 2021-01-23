@@ -47,22 +47,26 @@ class HomeController extends Controller
         }
     }
 
-    public function getActiveInvites($id)
+    public function getInvites($id, $condition)
     {
-        $users = User::where('referrer_id', $id)->where('activated', true)->get();
-        return $users;
-    }
+        if ($condition == 'all'){
+            $users = User::where('referrer_id', $id)->get();
+        }
+        elseif ($condition == 'activated'){
+            $users = User::where('referrer_id', $id)->where('activated', true)->get();
+        }
+        elseif ($condition == 'pending'){
+            $users = User::where('referrer_id', $id)->where('activated', false)->get();
+        }
+        $data = array();
+        foreach ($users as $k => $v){
+            $path = $this->checkDP($v->id, $v->gender);
 
-    public function getPendingInvites($id)
-    {
-        $users = User::where('referrer_id', $id)->where('activated', false)->get();
-        return $users;
-    }
-
-    public function getAllInvites($id)
-    {
-        $users = User::where('referrer_id', $id)->get();
-        return $users;
+            $n = $v;
+            $n['path'] = $path;
+            $data[$k] = $n;
+        }
+        return $data;
     }
 
     public function dashboard($id)
@@ -74,16 +78,7 @@ class HomeController extends Controller
         $directInvites = $this->tierInvites($id);
 
         // GET ALL ACTIVE AND PENDING INVITES AND PICTURES                        
-        $invites = $this->getAllInvites($id);
-        $data = array();
-        foreach ($invites as $k => $v){
-            $path = $this->checkDP($v->id, $v->gender);
-
-            $n = $v;
-            $n['path'] = $path;
-            $data[$k] = $n;
-        }                        
-        $allInvites = (object) $data;
+        $allInvites = $this->getInvites($id, 'all');
 
         $payout = (new PayoutController)->getBalance($id);
         
@@ -105,15 +100,15 @@ class HomeController extends Controller
     public function tier($id) 
     {
 
-        $directInvites = $this->getActiveInvites($id)->toArray(); // GET ALL ACTIVE DIRECT INVITES OF THE USER WITH id = $id
-        $directInvitesPending = $this->getPendingInvites($id)->toArray(); // GET ALL PENDING DIRECT INVITES OF THE USER WITH id = $id
+        $directInvites = $this->getInvites($id, 'activated'); // GET ALL ACTIVE DIRECT INVITES OF THE USER WITH id = $id
+        $directInvitesPending = $this->getInvites($id, 'pending'); // GET ALL PENDING DIRECT INVITES OF THE USER WITH id = $id
         $allInvites = array('DirectInvites' => $directInvites, 'IndirectInvites' => array()); // SET ARRAY FOR DIRECT AND INDIRECT INVITES
 
         $users = $directInvites;
         
         for ($x = 1; $x <= 15; $x++){
             foreach ($users as $u){
-                $indirectInvites = $this->getActiveInvites($u['id'])->toArray();
+                $indirectInvites = $this->getInvites($u['id'], 'activated');
 
                 if (count($indirectInvites)){
                     foreach ($indirectInvites as $data){
@@ -190,20 +185,17 @@ class HomeController extends Controller
     public function tierInvites($id){
 
         // GET ALL ACTIVE INVITES PICTURE/TIER LEVEL/USER DATA
-        $directInvites = $this->getActiveInvites($id);
+        $directInvites = $this->getInvites($id, 'activated');
         $data = array();
         foreach ($directInvites as $k => $v){
-            $path = $this->checkDP($v->id, $v->gender);
             $tierInvites = $this->tier($v->id);
 
             $n = $v;
-            $n['path'] = $path;
             $n['tierLevel'] = $tierInvites->tierLevel;
             $n['tierTitle'] = $tierInvites->tierTitle;
             $data[$k] = $n;
         }                        
-        $directInvites = (array) $data;
 
-        return $directInvites;
+        return $data;
     }
 }
