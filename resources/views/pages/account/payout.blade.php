@@ -319,31 +319,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($payouts as $payout)
-                        <tr>
-                            <td>#&nbsp;{{ $payout->id }}</td>
-                            <td>{{ date('F d, Y', strtotime($payout->created_at)) }}</td>
-                            <td>&#8369;{{ $payout->amount }}</td>
-                            <td>{{ $payout->payoutOption->payout }}&nbsp;/&nbsp;<span class="text-capitalize">{{ $payout->payoutOption->name }}</span>&nbsp;/&nbsp;{{ $payout->payoutOption->number }}</td>
-                            <td>
-                                @if ($payout->status == true)
-                                <span class="rounded p-1 text-white bg-success">
-                                    <i data-feather="check" class="mr-1"></i>
-                                    Paid
-                                </span>
-                                @elseif ($payout->status == false)
-                                <span class="rounded p-1 text-white bg-warning">
-                                    <i data-feather="alert-circle" class="mr-1"></i>
-                                    Pending
-                                </span>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
                         @if (!count($payouts))
                         <tr>
                             <td><span class="text-muted">You haven't requested a payout yet.</td>
                         </tr>
+                        @else
+                            @foreach ($payouts as $payout)
+                            <tr>
+                                <td>#&nbsp;{{ $payout->id }}</td>
+                                <td>{{ date('F d, Y', strtotime($payout->created_at)) }}</td>
+                                <td>&#8369;{{ $payout->amount }}</td>
+                                <td>{{ $payout->payoutOption->payout }}&nbsp;/&nbsp;<span class="text-capitalize">{{ $payout->payoutOption->name }}</span>&nbsp;/&nbsp;{{ $payout->payoutOption->number }}</td>
+                                <td>
+                                    @if ($payout->status == true)
+                                    <span class="rounded p-1 text-white bg-success">
+                                        <i data-feather="check" class="mr-1"></i>
+                                        Paid
+                                    </span>
+                                    @elseif ($payout->status == false)
+                                    <span class="rounded p-1 text-white bg-warning">
+                                        <i data-feather="alert-circle" class="mr-1"></i>
+                                        Pending
+                                    </span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
                         @endif
                     </tbody>
                 </table>
