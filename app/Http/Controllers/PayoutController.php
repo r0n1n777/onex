@@ -37,11 +37,11 @@ class PayoutController extends Controller
         $tier = (new HomeController)->tier($id);
 
         // GET INVITES (ACTIVE) OF AUTH USER WITH THEIR TIER LEVEL
-        $directActiveInvites = (new HomeController)->tierInvites($id);
+        $directInvites = $tier->directInvites;
 
         // COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
-        if (count($directActiveInvites) >= 5){
-            $additionalPayout = (count($directActiveInvites) - 5) * 200;
+        if (count($directInvites) >= 5){
+            $additionalPayout = (count($directInvites) - 5) * 200;
         }
 
         // GET TIER LEVEL OF AUTH USER
@@ -113,7 +113,7 @@ class PayoutController extends Controller
         }
 
         // LOOP THROUGH INVITES AND CHECK IF NEED TO ADD AMOUNT BASE ON TIER
-        foreach ($directActiveInvites as $invite){
+        foreach ($directInvites as $invite){
             if ($invite->tierLevel >= $tierLevel){
                 $earnings += $amount;
             }

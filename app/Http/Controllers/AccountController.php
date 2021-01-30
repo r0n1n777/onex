@@ -35,7 +35,7 @@ class AccountController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $path = (new HomeController)->checkDP($user->id, $user->gender);
+        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
         return view('pages.account.profile')->with('user', $user)
                                             ->with('path', $path);
     }
@@ -43,7 +43,7 @@ class AccountController extends Controller
     public function payout()
     {
         $user = Auth::user();
-        $path = (new HomeController)->checkDP($user->id, $user->gender);
+        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
         $balanceEarnings = (new PayoutController)->getBalance($user->id);
         $payoutOptions = PayoutOptions::where('uid', $user->id)->get();
         $payouts = Payouts::where('uid', $user->id)->with('payoutOption')->orderBy('id', 'desc')->get();
@@ -58,7 +58,7 @@ class AccountController extends Controller
     public function security()
     {
         $user = Auth::user();
-        $path = (new HomeController)->checkDP($user->id, $user->gender);
+        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
         return view('pages.account.security')->with('user', $user)
                                             ->with('path', $path);
     }

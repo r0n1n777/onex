@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $path = $this->checkDP($user->id, $user->gender);
+        $path = $this->getProfilePicture($user->id, $user->gender);
         $data = $this->dashboard($user->id);
 
         return view('pages.home')->with('user', $user)
@@ -35,7 +35,7 @@ class HomeController extends Controller
                                 ->with('data', $data);
     }
 
-    public function checkDP($id, $gender)
+    public function getProfilePicture($id, $gender)
     {
         // CHECK IF PROFILE PICTURE EXISTS
         $dp = file_exists('assets/img/dp/'.$id.'.png');
@@ -60,7 +60,7 @@ class HomeController extends Controller
         }
         $data = array();
         foreach ($users as $k => $v){
-            $path = $this->checkDP($v->id, $v->gender);
+            $path = $this->getProfilePicture($v->id, $v->gender);
             $tier = $this->tier($v->id);
 
             $n = $v;
@@ -78,11 +78,13 @@ class HomeController extends Controller
         // GET TIER OF AUTH USER
         $tier = $this->tier($id);
 
-        $directInvites = $this->tierInvites($id);
+        // GET ONLY ACTIVE MEMBERS
+        $directInvites = $this->tier($id)->directInvites;
 
-        // GET ALL ACTIVE AND PENDING INVITES AND PICTURES                        
-        $allInvites = $this->getInvites($id, 'all');
+        // GET ALL ACTIVE AND PENDING MEMBERS                        
+        $allInvites = $this->tier($id)->allInvites;
 
+        // GET EARNINGS AND BALANCE INFO
         $payout = (new PayoutController)->getBalance($id);
         
         $data = array(  'tierLevel' => $tier->tierLevel,
@@ -103,9 +105,10 @@ class HomeController extends Controller
     public function tier($id) 
     {
 
+        $allInvites = $this->getInvites($id, 'all'); // GET ALL INVITES (ACTIVE AND PENDING)
         $directInvites = $this->getInvites($id, 'activated'); // GET ALL ACTIVE DIRECT INVITES OF THE USER WITH id = $id
         $directInvitesPending = $this->getInvites($id, 'pending'); // GET ALL PENDING DIRECT INVITES OF THE USER WITH id = $id
-        $allInvites = array('DirectInvites' => $directInvites, 'IndirectInvites' => array()); // SET ARRAY FOR DIRECT AND INDIRECT INVITES
+        $allInvitesBag = array('DirectInvites' => $directInvites, 'IndirectInvites' => array()); // SET ARRAY FOR DIRECT AND INDIRECT INVITES
 
         $users = $directInvites;
         
@@ -116,15 +119,15 @@ class HomeController extends Controller
                 if (count($indirectInvites)){
                     foreach ($indirectInvites as $data){
                         $users = $indirectInvites;
-                        array_push($allInvites['IndirectInvites'], $data);
+                        array_push($allInvitesBag['IndirectInvites'], $data);
                     }
                 }
             }
         }
         
-        $numAllInvites = count($allInvites['DirectInvites']) + count($allInvites['IndirectInvites']);;
-        $numDirectInvites = count($allInvites['DirectInvites']);
-        $numIndirectInvites = count($allInvites['IndirectInvites']);
+        $numAllInvites = count($allInvitesBag['DirectInvites']) + count($allInvitesBag['IndirectInvites']);;
+        $numDirectInvites = count($allInvitesBag['DirectInvites']);
+        $numIndirectInvites = count($allInvitesBag['IndirectInvites']);
         $numDirectInvitesPending = count($directInvitesPending);
 
         $tierLevel = 1;
@@ -179,26 +182,12 @@ class HomeController extends Controller
         return (object) array(
             'tierLevel' => $tierLevel, 
             'tierTitle' => $tierTitle,
+            'allInvites' => $allInvites,
+            'allInvitesBag' => $allInvitesBag,
+            'directInvites' => $directInvites,
             'numDirectInvites' => $numDirectInvites,
             'numIndirectInvites' => $numIndirectInvites,
             'numDirectInvitesPending' => $numDirectInvitesPending
         );
-    }
-
-    public function tierInvites($id){
-
-        // GET ALL ACTIVE INVITES PICTURE/TIER LEVEL/USER DATA
-        $directInvites = $this->getInvites($id, 'activated');
-        $data = array();
-        foreach ($directInvites as $k => $v){
-            $tierInvites = $this->tier($v->id);
-
-            $n = $v;
-            $n['tierLevel'] = $tierInvites->tierLevel;
-            $n['tierTitle'] = $tierInvites->tierTitle;
-            $data[$k] = $n;
-        }                        
-
-        return $data;
     }
 }

@@ -16,13 +16,15 @@ class AffiliateController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $tier = (object) (new HomeController)->tier($user->id);
-        $affiliates = (object) (new HomeController)->getInvites($user->id, 'all');
-        $path = (new HomeController)->checkDP($user->id, $user->gender);
+        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
+        $tier = (new HomeController)->tier($user->id);
+        $affiliates = $tier->allInvites;
+        $allAffiliates = json_decode(json_encode($tier->allInvitesBag));
 
         return view('pages.affiliates')->with('path', $path)
                                     ->with('user', $user)
                                     ->with('tier', $tier)
-                                    ->with('affiliates', $affiliates);
+                                    ->with('affiliates', $affiliates)
+                                    ->with('allAffiliates', $allAffiliates);
     }
 }
