@@ -29,22 +29,44 @@
     <div id="layoutDefault">
         <div id="layoutDefault_content">
             <main>
-                <!-- Navbar-->
-                <nav class="shadow-sm navbar navbar-marketing navbar-expand-lg bg-dark navbar-dark">
-                    <div class="container">
+                <!-- Navbar, hide nav-links to small breakpoint-->
+                <nav class="shadow-sm navbar navbar-marketing navbar-expand-md bg-dark navbar-dark">
+                    <!--change the direction of container to column-->
+                    <div class="container d-flex flex-column">
                         @if (!Auth::check())
                         <a class="navbar-brand text-white" href="/home"><img class="img-fluid" width="390px" src="{{ asset('assets/img/logoname.png') }}" /></a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
-                        <div class="collapse navbar-collapse text-right" id="navbarSupportedContent">
-                            <ul class="navbar-nav ml-auto mr-5"></ul>
-                            <a class="btn font-weight-500 mr-2 btn-primary" href="{{ route('login') }}">Login<i class="ml-2" data-feather="arrow-right"> </i></a><a class="btn font-weight-500 btn-primary" href="{{ route('register') }}">Join<i class="ml-2" data-feather="arrow-right"></i></a>                            
+                        <button class="navbar-toggler align-self-end" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <!--nav-links-->
+                        <div class="collapse navbar-collapse w-100" id="navbarNavAltMarkup">
+                            <div class="navbar-nav text-center">
+                                <a class="nav-item nav-link active ml-lg-3 border-left border-danger" href="#">Home <span class="sr-only">(current)</span></a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">Products</a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">Contact us</a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">About us</a>
+                            </div>
+                            <!--Postion login/register to left-->
+                            <div class="login-register ml-auto text-center">
+                                <a class="btn font-weight-500 mr-2 btn-primary" href="{{ route('login') }}">Login<i class="ml-2" data-feather="arrow-right"> </i></a><a class="btn font-weight-500 btn-primary" href="{{ route('register') }}">Join<i class="ml-2" data-feather="arrow-right"></i></a>                          
+                            </div>
                         </div>
+                        <!--end of nav-links-->
                         @elseif (Auth::check())
                         <a class="navbar-brand text-white" href="/home"><img class="img-fluid" width="390px" src="{{ asset('assets/img/logoname.png') }}" /></a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
-                        <div class="collapse navbar-collapse text-right" id="navbarSupportedContent">
-                            <ul class="navbar-nav ml-auto mr-5"></ul>
-                            <a class="btn font-weight-500 mr-2 btn-primary" href="{{ route('login') }}">Dashboard - Overview<i class="ml-2" data-feather="activity"> </i></a>
+                        <button class="navbar-toggler align-self-end" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse w-100" id="navbarNavAltMarkup">
+                            <div class="navbar-nav text-center">
+                                <a class="nav-item nav-link active ml-lg-3 border-left border-danger" href="#">Home <span class="sr-only">(current)</span></a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">Products</a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">Contact us</a>
+                                <a class="nav-item nav-link ml-lg-3" href="#">About us</a>
+                            </div>
+                            <div class="btn-log ml-auto text-center">
+                                <a class="btn font-weight-500 mr-2 btn-primary" href="{{ route('login') }}">Dashboard - Overview<i class="ml-2" data-feather="activity"> </i></a>
+                            </div>
                         </div>
                         @endif
                     </div>
