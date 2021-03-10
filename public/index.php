@@ -16,8 +16,8 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-if (file_exists(__DIR__.'/../onex/storage/framework/maintenance.php')) {
-    require __DIR__.'/../onex/storage/framework/maintenance.php';
+if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
+    require __DIR__.'/../storage/framework/maintenance.php';
 }
 
 /*
@@ -31,7 +31,7 @@ if (file_exists(__DIR__.'/../onex/storage/framework/maintenance.php')) {
 |
 */
 
-require __DIR__.'/../onex/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +44,12 @@ require __DIR__.'/../onex/vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../onex/bootstrap/app.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
-// CHANGE THE DEFAULT PUBLIC PATH TO POINT OUTSIDE THE LARAVEL FOLDER WHICH IS public_html
+/* CHANGE THE DEFAULT PUBLIC PATH TO POINT OUTSIDE THE LARAVEL FOLDER WHICH IS public_html
 $app->bind('path.public', function() {
     return __DIR__.'/../public_html/';
-});
+});*/
 
 $kernel = $app->make(Kernel::class);
 
