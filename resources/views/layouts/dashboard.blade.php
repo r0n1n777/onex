@@ -114,6 +114,10 @@
                                     Affiliates
                                 </a>
                                 <a class="nav-link" href="#!">
+                                    Binary Tree
+                                    <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span>
+                                </a>
+                                <a class="nav-link" href="#!">
                                     Earnings
                                     <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span>
                                 </a>

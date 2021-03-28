@@ -24,7 +24,7 @@ class PayoutController extends Controller
         }
     }
 
-    public function getBalance($id)
+    public function getEarningsBalance($id)
     {
 
         // SET INITIAL EARNINGS AND BALANCE
@@ -39,85 +39,23 @@ class PayoutController extends Controller
         // GET INVITES (ACTIVE) OF AUTH USER WITH THEIR TIER LEVEL
         $directInvites = $tier->directInvites;
 
-        // COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
-        if (count($directInvites) >= 5){
-            $additionalPayout = (count($directInvites) - 5) * 200;
-        }
+        // COMPUTE EARNINGS
+        $earnings = count($directInvites) * 100;
+
+        /* COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
+        //if (count($directInvites) >= 5){
+        //  $additionalPayout = (count($directInvites) - 5) * 200;
+        }*/
 
         // GET TIER LEVEL OF AUTH USER
         $tierLevel = $tier->tierLevel;
 
-        // SET AMOUNT TO ADD TO BALANCE BASE ON INVITES' TIER
-        $amount = 0;
-        switch ($tierLevel){
-            case 1: 
-                $earnings = 0;
-                $amount = 100;
-                break;
-            case 2:
-                $earnings = 500;
-                $amount = 100;
-                break;
-            case 3: 
-                $earnings = 1000;
-                $amount = 200;
-                break;
-            case 4:
-                $earnings = 3000;
-                $amount = 600;
-                break;
-            case 5: 
-                $earnings = 5000;
-                $amount = 1000;
-                break;
-            case 6: 
-                $earnings = 7000;
-                $amount = 1400;
-                break;
-            case 7: 
-                $earnings = 9000;
-                $amount = 1800;
-                break;
-            case 8: 
-                $earnings = 11000;
-                $amount = 2200;
-                break;
-            case 9:
-                $earnings = 13000;
-                $amount = 2600;
-                break;
-            case 10: 
-                $earnings = 15000;
-                $amount = 3000;
-                break;
-            case 11: 
-                $earnings = 17000;
-                $amount = 3400;
-                break;
-            case 12: 
-                $earnings = 19000;
-                $amount = 3800;
-                break;
-            case 13: 
-                $earnings = 21000;
-                $amount = 4200;
-                break;
-            case 14: 
-                $earnings = 23000;
-                $amount = 4600;
-                break;
-            case 15: 
-                $earnings = 39000;
-                $amount = 7800;
-                break;
-        }
-
-        // LOOP THROUGH INVITES AND CHECK IF NEED TO ADD AMOUNT BASE ON TIER
+        /* LOOP THROUGH INVITES AND CHECK IF NEED TO ADD AMOUNT BASE ON TIER
         foreach ($directInvites as $invite){
             if ($invite->tierLevel >= $tierLevel){
                 $earnings += $amount;
             }
-        }
+        }*/
 
         // GET ALL THE PAYOUTS AND COMPUTE HOW MUCH TO SUBSTRACT FROM THE BALANCE
         $payouts = Payouts::where('uid', $id)->where('status', true)->get();

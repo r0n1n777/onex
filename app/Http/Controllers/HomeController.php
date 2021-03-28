@@ -81,18 +81,20 @@ class HomeController extends Controller
         // GET ONLY ACTIVE MEMBERS
         $directInvites = $this->tier($id)->directInvites;
 
+        // GET ONLY PENDING MEMBERS
+        $directInvitesPending = $this->tier($id)->directInvitesPending;
+
         // GET ALL ACTIVE AND PENDING MEMBERS                        
-        $allInvites = $this->tier($id)->allInvites;
+        //$allInvites = $this->tier($id)->allInvites;
 
         // GET EARNINGS AND BALANCE INFO
-        $payout = (new PayoutController)->getBalance($id);
+        $payout = (new PayoutController)->getEarningsBalance($id);
         
         $data = array(  'tierLevel' => $tier->tierLevel,
                         'tierTitle' => $tier->tierTitle,
                         'directInvites' => $directInvites,
-                        'allInvites' => $allInvites,
+                        'directInvitesPending' => $directInvitesPending,
                         'numDirectInvites' => $tier->numDirectInvites,
-                        'numIndirectInvites' => $tier->numIndirectInvites,
                         'numDirectInvitesPending' => $tier->numDirectInvitesPending,
                         'earnings' => $payout->earnings,
                         'balance' => $payout->balance);
@@ -105,13 +107,13 @@ class HomeController extends Controller
     public function tier($id) 
     {
 
-        $allInvites = $this->getInvites($id, 'all'); // GET ALL INVITES (ACTIVE AND PENDING)
+        //$allInvites = $this->getInvites($id, 'all'); // GET ALL INVITES (ACTIVE AND PENDING)
         $directInvites = $this->getInvites($id, 'activated'); // GET ALL ACTIVE DIRECT INVITES OF THE USER WITH id = $id
         $directInvitesPending = $this->getInvites($id, 'pending'); // GET ALL PENDING DIRECT INVITES OF THE USER WITH id = $id
-        $allInvitesBag = array('DirectInvites' => $directInvites, 'IndirectInvites' => array()); // SET ARRAY FOR DIRECT AND INDIRECT INVITES
+        //$allInvitesBag = array('DirectInvites' => $directInvites, 'IndirectInvites' => array()); // SET ARRAY FOR DIRECT AND INDIRECT INVITES
 
         $users = $directInvites;
-        
+        /*
         for ($x = 1; $x <= 15; $x++){
             foreach ($users as $u){
                 $indirectInvites = $this->getInvites($u['id'], 'activated');
@@ -126,67 +128,31 @@ class HomeController extends Controller
         }
         
         $numAllInvites = count($allInvitesBag['DirectInvites']) + count($allInvitesBag['IndirectInvites']);;
-        $numDirectInvites = count($allInvitesBag['DirectInvites']);
+        
         $numIndirectInvites = count($allInvitesBag['IndirectInvites']);
+        
+        */
+
+        $numDirectInvites = count($directInvites);
         $numDirectInvitesPending = count($directInvitesPending);
 
         $tierLevel = 1;
-        $tierTitle = "Private";
+        $tierTitle = "Probationary";
 
         if ($numDirectInvites >= 5){
             $tierLevel = 2;
-            $tierTitle = "Private First Class";
-            switch ($numAllInvites) {
-                case $numAllInvites >= 25:
-                    $tierLevel = 3;
-                    $tierTitle = "Specialist";
-                case $numAllInvites >= 125:
-                    $tierLevel = 4;
-                    $tierTitle = "Corporal";
-                case $numAllInvites >= 625:
-                    $tierLevel = 5;
-                    $tierTitle = "Sergeant";
-                case $numAllInvites >= 3125:
-                    $tierLevel = 6;
-                    $tierTitle = "Staff Sergeant";
-                case $numAllInvites >= 15625:
-                    $tierLevel = 7;
-                    $tierTitle = "Sergeant First Class";
-                case $numAllInvites >= 78125:
-                    $tierLevel = 8;
-                    $tierTitle = "Master Sergeant";
-                case $numAllInvites >= 390625:
-                    $tierLevel = 9;
-                    $tierTitle = "First Sergeant";
-                case $numAllInvites >= 1953125:
-                    $tierLevel = 10;
-                    $tierTitle = "Sergeant Major";
-                case $numAllInvites >= 9765625:
-                    $tierLevel = 11;
-                    $tierTitle = "Command Sergeant Major";
-                case $numAllInvites >= 48828125:
-                    $tierLevel = 12;
-                    $tierTitle = "Sergeant Major of ONEX";
-                case $numAllInvites >= 244140625:
-                    $tierLevel = 13;
-                    $tierTitle = "Sergeant Major of ONEX";
-                case $numAllInvites >= 1220703125:
-                    $tierLevel = 14;
-                    $tierTitle = "Sergeant Major of ONEX";
-                case $numAllInvites >= 6103515625:
-                    $tierLevel = 15;
-                    $tierTitle = "Sergeant Major of ONEX";
-            }
+            $tierTitle = "Regular";
         }
 
         return (object) array(
             'tierLevel' => $tierLevel, 
             'tierTitle' => $tierTitle,
-            'allInvites' => $allInvites,
-            'allInvitesBag' => $allInvitesBag,
+            //'allInvites' => $allInvites,
+            //'allInvitesBag' => $allInvitesBag,
             'directInvites' => $directInvites,
+            'directInvitesPending' => $directInvitesPending,
             'numDirectInvites' => $numDirectInvites,
-            'numIndirectInvites' => $numIndirectInvites,
+            //'numIndirectInvites' => $numIndirectInvites,
             'numDirectInvitesPending' => $numDirectInvitesPending
         );
     }

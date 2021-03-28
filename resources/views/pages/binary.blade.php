@@ -8,9 +8,9 @@
                 <div class="col-auto mt-4">
                     <h1 class="page-header-title">
                         <div class="page-header-icon"><i data-feather="activity"></i></div>
-                        Affiliates
+                        Binary Tree
                     </h1>
-                    <div class="page-header-subtitle">Detailed information about your referrals and invites.</div>
+                    <div class="page-header-subtitle">Earning incentives and bonuses are much easier with Binary!</div>
                 </div>
             </div>
         </div>
@@ -42,8 +42,7 @@
                         <div class="col-xl-5 col-xxl-5">
                             @if ($tier->tierTitle == "Regular")
                             You are now eligible to earn more with our <b>Binary System</b>. You can now strategically position your direct invites in your binary tree.<br /><br />
-                            <a class="btn btn-primary" href="#!">Go to Binary Tree<i data-feather="log-in" class="ml-1 align-middle"></i>
-                            <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span></a>
+                            <a class="btn btn-primary" href="{{ route('binary') }}">Go to Binary Tree<i data-feather="log-in" class="ml-1 align-middle"></i></a>
                             @else
                             Once you've reached the <b>Regular Status</b> for your account, you will be eligible in earning more incentives and bonuses. You have to invite 5 activated members under you to reach next level.<br /><br />
                             Current Account Status: <b>{{ $tier->tierTitle }}</b>

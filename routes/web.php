@@ -27,7 +27,10 @@ Route::get('/', function () {
 Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home');
 
 // AFFILIATE
-Route::get('affiliates', 'App\Http\Controllers\AFfiliateController@show')->name('affiliates');
+Route::get('affiliates', 'App\Http\Controllers\AffiliateController@show')->name('affiliates');
+
+// BINARY
+Route::get('binary', 'App\Http\Controllers\BinaryController@show')->name('binary');
 
 // ACCOUNT
 Route::get('profile', 'App\Http\Controllers\AccountController@profile')->name('profile');

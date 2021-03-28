@@ -155,48 +155,57 @@
             <div class="col-xxl-8 col-xl-8 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card card-header-actions mb-4 h-100 shadow-sm">
                     <div class="card-header bg-gradient-primary-to-secondary text-white">
-                        Tier Status
+                        Account Status
                     </div>
                     
                     <div class="card-body">
                         <h2 class="mt-3">
-                            <span class="badge badge-success-soft">Current Tier:&nbsp;</span>{{ $data->tierLevel }}
-                            <span class="text-muted text-sm">{{ $data->tierTitle }}</span>
-                            <img width="30px" src="{{ asset('assets/img/icons/title'.$data->tierLevel.'.png') }}" />
+                            <h1>{{ $data->tierTitle }}</h1>
                         </h2>
-                        @for ($x = 1; $x <= $data->tierLevel; $x++)
-                        <img class="mb-1" width="20px" src="{{ asset('assets/img/icons/star.png') }}" />
-                        @endfor
-                        @for ($x = $data->tierLevel + 1; $x <= 15; $x++)
-                        <img class="mb-1" width="20px" src="{{ asset('assets/img/icons/stardisable.png') }}" />
-                        @endfor
+                        <span class="text-sm">
+                            @if ($data->numDirectInvites < 5)
+                            <i class="feather-sm align-middle mr-1" data-feather="alert-circle" stroke="#e81500"></i>
+                            You need 5 Direct Invites to reach <b>Regular</b> status.
+                            @else
+                            <i class="feather-sm align-middle mr-1" data-feather="check"></i>
+                            Congratulations! Your account is now on <b>Regular</b> status.
+                            @endif
+                        </span>
                         <br />
                         <span class="text-sm">
-                            <i class="feather-sm align-middle mr-1" data-feather="alert-circle" stroke="#e81500"></i>
-                            You need 5 Tier {{ $data->tierLevel }}
-                            <img width="15px" src="{{ asset('assets/img/icons/title'.$data->tierLevel.'.png') }}" /> 
-                            active members invited to reach your next level Tier {{ $data->tierLevel + 1 }}
-                            @php $nextTierLevel = $data->tierLevel + 1 @endphp
-                            <img width="15px" src="{{ asset('assets/img/icons/title'.$nextTierLevel.'.png') }}" />
+                            @if ($data->numDirectInvites < 5)
+                            <i>When you reached the <b>Regular</b> status for your account, you will be eligible to earn more with our <b>Binary System</b> bonuses.</i>
+                            @else 
+                            <i>You can now earn more with your account status. With our <b>Binary System</b>, earning incentives and bonuses are much more easier.</i>
+                            @endif
                         </span>
                         <br /><br />
                         @if ($data->numDirectInvites == 0)
-                        <span class="text-sm badge badge-primary-soft">You don't have any active invites yet.</span>
+                        <span class="text-sm badge badge-success-soft">You don't have any <b>Activated Invites</b> yet.</span>
                         @else 
-                        <span class="text-sm badge badge-primary-soft mb-2">Showing all your active invites.</span><br />
+                        <span class="text-sm badge badge-success-soft mb-2">Showing all your <b>Activated Invites.</b></span><br />
                         @foreach ($data->directInvites as $invite)                        
                         <div class="d-inline badge badge-success-soft border border-success m-2">
                             <img width="30px" class="rounded-circle" src="{{ $invite->path }}" />
-                            <span class="text-sm">{{ $invite->uname }}</span>
-                            <img width="15px" src="{{ asset('assets/img/icons/title'.$invite->tierLevel.'.png') }}" />
-                            <span class="text-sm">Tier {{ $invite->tierLevel }}</span>
+                            <span class="text-sm text-capitalize">{{ $invite->fname }}</span>
+                            <span class="text-sm"><b>{{ $invite->tierTitle }}</b></span>
                         </div>
                         @endforeach
                         @endif
-                        <br /><br />
-                        <span class="text-sm">
-                            For every invites and rank up of your invites will also make your tier level up.
-                            Keep inviting people and help your invites to reach the top tier.
+                        <br />
+                        <br />
+                        @if ($data->numDirectInvitesPending == 0)
+                        <span class="text-sm badge badge-primary-soft">You don't have any <b>Pending Invites</b> yet.</span>
+                        @else 
+                        <span class="text-sm badge badge-primary-soft mb-2">Showing all your <b>Pending Invites.</b></span><br />
+                        @foreach ($data->directInvitesPending as $invite)                        
+                        <div class="d-inline badge badge-primary-soft border border-primary m-2">
+                            <img width="30px" class="rounded-circle" src="{{ $invite->path }}" />
+                            <span class="text-sm text-capitalize">{{ $invite->fname }}</span>
+                            <span class="text-sm"><b>{{ $invite->tierTitle }}</b></span>
+                        </div>
+                        @endforeach
+                        @endif
                     </div>
                     <a class="card-footer bg-light text-white" href="#!">
                         <div class="d-flex align-items-center justify-content-between small text-body">
@@ -251,42 +260,6 @@
                             <i class="feather-xl text-white-50" data-feather="chevrons-up"></i>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Example DataTable for Dashboard Demo-->
-        <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="100">
-            <div class="card-header bg-gradient-primary-to-secondary text-white">Direct Invites</div>
-            <div class="card-body">
-                <div class="datatable">
-                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Email Address</th>
-                                <th>Phone Number</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data->allInvites as $invite)
-                            <tr>
-                                <th class="text-center"><img class="rounded-circle" width="50px" src="{{ $invite->path }}" /></th>
-                                <td class="text-capitalize">{{ $invite->fname.' '.$invite->lname }}</td>
-                                <td>{{ $invite->uname }}</td>
-                                <td>{{ $invite->email }}</td>
-                                <td>{{ $invite->phone }}</td>
-                                @if ($invite->activated == true)
-                                <td><div class="badge badge-success badge-pill">Active</div></td>
-                                @elseif ($invite->activated == false)
-                                <td><div class="badge badge-warning badge-pill">Pending</div></td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

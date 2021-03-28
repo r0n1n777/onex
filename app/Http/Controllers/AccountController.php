@@ -44,7 +44,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
-        $balanceEarnings = (new PayoutController)->getBalance($user->id);
+        $balanceEarnings = (new PayoutController)->getEarningsBalance($user->id);
         $payoutOptions = PayoutOptions::where('uid', $user->id)->get();
         $payouts = Payouts::where('uid', $user->id)->with('payoutOption')->orderBy('id', 'desc')->get();
         return view('pages.account.payout')->with('user', $user)
@@ -163,7 +163,7 @@ class AccountController extends Controller
 
     public function requestPayout(Request $request)
     {
-        $balanceEarnings = (new PayoutController)->getBalance(Auth::user()->id);
+        $balanceEarnings = (new PayoutController)->getEarningsBalance(Auth::user()->id);
         $validator = Validator::make($request->all(), [
             'amount' => ['required', 'numeric', 'lte:'.$balanceEarnings->balance, 'min:500'],
         ],

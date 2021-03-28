@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Affiliates;
+use App\Models\Binary;
 use Auth;
 
-class AffiliateController extends Controller
+class BinaryController extends Controller
 {
     public function __construct()
     {
@@ -21,7 +21,7 @@ class AffiliateController extends Controller
         $affiliates = $tier->directInvites;
         $affiliatesPending = $tier->directInvitesPending;
 
-        return view('pages.affiliates')->with('path', $path)
+        return view('pages.binary')->with('path', $path)
                                     ->with('user', $user)
                                     ->with('tier', $tier)
                                     ->with('affiliates', $affiliates)
