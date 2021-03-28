@@ -6,8 +6,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Vonage\Client\Credentials\Basic;
-use App\Models\User;
 
 trait RegistersUsers
 {
@@ -18,28 +16,9 @@ trait RegistersUsers
      *
      * @return \Illuminate\View\View
      */
-    public function showRegistrationForm($uname = null)
+    public function showRegistrationForm()
     {
-        // IF NO USERNAME, REDIRECT TO REG FORM WITHOUT REFERRER
-        if ($uname == null)
-        {
-            return view('auth.register');
-        }
-        
-        // RETRIEVE THE ID FROM THE GIVEN USERNAME
-        // ALSO CHECK IF THE USER EXIST WITH THE USERNAME
-        if (User::where('uname', $uname)->exists())
-        {
-            // RETURN VIEW WITH USER INFO
-            $user = User::where('uname', $uname)->first();
-            return view('auth.register')->with('referrer', $user);
-        }
-        else
-        {
-            // RETURN VIEW SHOW ERROR INVALID LINK
-            return view('auth.register')->with('invalid_link', true);
-        }
-        
+        return view('auth.register');
     }
 
     /**
@@ -84,6 +63,6 @@ trait RegistersUsers
      */
     protected function registered(Request $request, $user)
     {
-        
+        //
     }
 }
