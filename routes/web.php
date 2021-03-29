@@ -23,7 +23,10 @@ Route::get('/', function () {
     return view('pages.index');
 });
 
-// ROUTE TO DASHBOARD
+// ADMIN
+Route::get('admin', 'App\Http\Controllers\AdminController@show')->name('admin');
+
+// DASHBOARD
 Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home');
 
 // AFFILIATE

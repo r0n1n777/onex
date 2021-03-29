@@ -106,6 +106,11 @@
                         </a>
                         <div class="collapse show" id="collapseDashboards" data-parent="#accordionSidenav">
                             <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
+                                @if ($user->admin)
+                                <a class="nav-link" href="{{ route('admin') }}">
+                                    Admin
+                                </a>
+                                @endif
                                 <a class="nav-link" href="{{ route('home') }}">
                                     Overview
                                     <!--<span class="badge badge-primary-soft text-primary ml-auto">Updated</span>-->
