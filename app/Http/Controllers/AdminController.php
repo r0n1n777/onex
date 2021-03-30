@@ -18,7 +18,9 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
-        $pendingAccounts = Admin::where('activated', 0)->get();
+        $accounts = Admin::all();
+        $activeCount = count(Admin::where('activated', 1)->get());
+        $pendingCount = count(Admin::where('activated', 0)->get());
 
         if ($user->admin == false) {
             return redirect('/home');
@@ -26,6 +28,8 @@ class AdminController extends Controller
 
         return view('pages.admin')->with('user', $user)
                                 ->with('path', $path)
-                                ->with('pendingAccounts', $pendingAccounts);
+                                ->with('accounts', $accounts)
+                                ->with('activeCount', $activeCount)
+                                ->with('pendingCount', $pendingCount);
     }
 }
