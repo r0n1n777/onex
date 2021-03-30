@@ -18,7 +18,7 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
-        $accounts = Admin::all();
+        $accounts = Admin::orderBy('created_at', 'desc')->get();
         $activeCount = count(Admin::where('activated', 1)->get());
         $pendingCount = count(Admin::where('activated', 0)->get());
 
