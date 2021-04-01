@@ -1,6 +1,35 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+    @isset($success)
+    <script>
+        $(document).ready(function(){
+            $('.confirmation').on("click", function(){
+                $('#id').val($(this).attr('id'));
+                $('#name').html($(this).attr('name'));
+                $('#phone').html($(this).attr('phone'));
+                $('#email').html($(this).attr('email'));
+                $('#date').html($(this).attr('date'));
+            });
+            
+            $('#notification-to-activate').modal('show');
+        });
+    </script>
+    @else 
+    <script>
+        $(document).ready(function(){
+            $('.confirmation').on("click", function(){
+                $('#id').val($(this).attr('id'));
+                $('#name').html($(this).attr('name'));
+                $('#phone').html($(this).attr('phone'));
+                $('#email').html($(this).attr('email'));
+                $('#date').html($(this).attr('date'));
+            });
+        });
+    </script>
+    @endisset
+
     <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
         <div class="container">
             <div class="page-header-content pt-4">
@@ -69,7 +98,13 @@
                                     <tr>
                                         <th class="text-center">
                                             @if ($account->activated == false)
-                                                <button class="btn btn-success btn-sm">Activate</button>
+                                                <button class="btn btn-success btn-sm confirmation"
+                                                id="{{ $account->id }}"
+                                                name="{{ $account->fname.' '.$account->lname }}"
+                                                phone="{{ $account->phone }}"
+                                                email="{{ $account->email }}"
+                                                date="{{ date("F d, Y", strtotime($account->created_at)) }}"
+                                                data-toggle="modal" data-target="#confirmation-to-activate">Activate</button>
                                             @else
                                                 <button class="btn btn-primary btn-sm">Deactivate</button>
                                             @endif
@@ -95,4 +130,56 @@
             </div>
         </div>
     </div>
+    <!-- Modals -->
+    <div class="modal fade in" tabindex="-1" role="dialog" id="confirmation-to-activate">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-primary-to-secondary">
+                    <h5 class="modal-title text-white">Confirmation to Activate Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to activate this account?</p>
+                <span id="name" class="text-capitalize"></span><br />
+                <span id="phone"></span><br />
+                <span id="email"></span><br />
+                <span id="date"></span>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ route('activate') }}" method="POST">
+                    @csrf
+                    <input type="hidden" id="id" name="id" value="" />
+                    <button type="submit" class="btn btn-success">Activate</button>
+                </form>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    @isset($success)
+    <!-- Modals -->
+    <div class="modal fade in" tabindex="-1" role="dialog" id="notification-to-activate">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-primary-to-secondary">
+                    <h5 class="modal-title text-white">Activation Request</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You have successfully activated the account for:</p>
+                <span id="name" class="text-capitalize">{{ $auser->fname.' '.$auser->lname }}</span><br />
+                <span id="phone">{{ $auser->phone }}</span><br />
+                <span id="email">{{ $auser->email }}</span><br />
+                <span id="date">{{ $auser->date }}</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    @endisset
 @endsection

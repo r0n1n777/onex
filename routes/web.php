@@ -25,6 +25,7 @@ Route::get('/', function () {
 
 // ADMIN
 Route::get('admin', 'App\Http\Controllers\AdminController@show')->name('admin');
+Route::post('admin/activate', 'App\Http\Controllers\AdminController@activate')->name('activate');
 
 // DASHBOARD
 Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home');

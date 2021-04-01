@@ -32,4 +32,25 @@ class AdminController extends Controller
                                 ->with('activeCount', $activeCount)
                                 ->with('pendingCount', $pendingCount);
     }
+
+    public function activate(Request $request) {
+        $auser = Admin::find($request->id);
+        $auser->activated = true;
+
+        $auser->save();
+
+        $user = Auth::user();
+        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
+        $accounts = Admin::orderBy('created_at', 'desc')->get();
+        $activeCount = count(Admin::where('activated', 1)->get());
+        $pendingCount = count(Admin::where('activated', 0)->get());
+
+        return view('pages.admin')->with('success', true)
+                                ->with('auser', $auser)
+                                ->with('user', $user)
+                                ->with('path', $path)
+                                ->with('accounts', $accounts)
+                                ->with('activeCount', $activeCount)
+                                ->with('pendingCount', $pendingCount);
+    }
 }
