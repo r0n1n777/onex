@@ -1,7 +1,11 @@
 // SB Template
 
-@import 'sbadmin/styles.scss';
+@import 'sbadmin/_template.scss'; // Bootstrap is being called here
 
 // Custom CSS
 
 @import 'custom';
+
+// AOS for Animation of Sections
+
+@import 'aos';

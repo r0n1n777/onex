@@ -1,3 +1,5 @@
+require('./croppie.js');
+
 $image_crop = $('#picture-box').croppie({
     enableExif: true,
     viewport: {

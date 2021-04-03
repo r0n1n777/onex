@@ -1,5 +1,7 @@
-require('./scriptsLanding.js');
+require('./bootstrap.js');
 
-require('./scriptsAdmin.js');
+require('./template.js');
+
+require('./admin.js');
 
 require('./pictureUpload.js');

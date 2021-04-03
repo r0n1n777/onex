@@ -230,6 +230,7 @@ return [
 
         'Image' => Intervention\Image\Facades\Image::class,
         'Home' => App\Http\Controllers\HomeController::class,
+        'User' => App\Models\User::class,
 
     ],
 

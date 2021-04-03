@@ -169,7 +169,7 @@
     <!-- Request Payout Modal-->
     <form method="POST" action="{{ route('requestPayout') }}">
         @csrf
-        <div id="request-payout" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-payout" aria-hidden="true">
+        <div id="request-payout" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="request-payout" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-gradient-primary-to-secondary text-white">

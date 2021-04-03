@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin;
 use Auth;
+use User;
 
 class AdminController extends Controller
 {
@@ -18,9 +18,9 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
-        $accounts = Admin::orderBy('created_at', 'desc')->get();
-        $activeCount = count(Admin::where('activated', 1)->get());
-        $pendingCount = count(Admin::where('activated', 0)->get());
+        $accounts = User::orderBy('created_at', 'desc')->get();
+        $activeCount = count(User::where('activated', 1)->get());
+        $pendingCount = count(User::where('activated', 0)->get());
 
         if ($user->admin == false) {
             return redirect('/home');
@@ -34,23 +34,17 @@ class AdminController extends Controller
     }
 
     public function activate(Request $request) {
-        $auser = Admin::find($request->id);
-        $auser->activated = true;
+        $auser = User::find($request->id);
 
+        if ($auser->activated == true) {
+            $auser->activated = false;
+        }
+        else {
+            $auser->activated = true;
+        }
+        
         $auser->save();
 
-        $user = Auth::user();
-        $path = (new HomeController)->getProfilePicture($user->id, $user->gender);
-        $accounts = Admin::orderBy('created_at', 'desc')->get();
-        $activeCount = count(Admin::where('activated', 1)->get());
-        $pendingCount = count(Admin::where('activated', 0)->get());
-
-        return view('pages.admin')->with('success', true)
-                                ->with('auser', $auser)
-                                ->with('user', $user)
-                                ->with('path', $path)
-                                ->with('accounts', $accounts)
-                                ->with('activeCount', $activeCount)
-                                ->with('pendingCount', $pendingCount);
+        return redirect()->back()->with('result', $auser);
     }
 }

@@ -1,45 +1,16 @@
 @extends('layouts.dashboard')
 
 @section('content')
-
-    @isset($success)
-    <script>
-        $(document).ready(function(){
-            $('.confirmation').on("click", function(){
-                $('#id').val($(this).attr('id'));
-                $('#name').html($(this).attr('name'));
-                $('#phone').html($(this).attr('phone'));
-                $('#email').html($(this).attr('email'));
-                $('#date').html($(this).attr('date'));
-            });
-            
-            $('#notification-to-activate').modal('show');
-        });
-    </script>
-    @else 
-    <script>
-        $(document).ready(function(){
-            $('.confirmation').on("click", function(){
-                $('#id').val($(this).attr('id'));
-                $('#name').html($(this).attr('name'));
-                $('#phone').html($(this).attr('phone'));
-                $('#email').html($(this).attr('email'));
-                $('#date').html($(this).attr('date'));
-            });
-        });
-    </script>
-    @endisset
-
     <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
         <div class="container">
             <div class="page-header-content pt-4">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto mt-4">
                         <h1 class="page-header-title">
-                            <div class="page-header-icon"><i data-feather="activity"></i></div>
+                            <div class="page-header-icon"><i data-feather="server"></i></div>
                             Admin Dashboard
                         </h1>
-                        <div class="page-header-subtitle">Welcome to the Admin Dashboard! Only Administrators of ONEX are the ones who can open and use this page.</div>
+                        <div class="page-header-subtitle">Welcome to the Admin Dashboard! Only Administrators of ONEX are the ones who can access and use this page.</div>
                     </div>
                 </div>
             </div>
@@ -98,15 +69,29 @@
                                     <tr>
                                         <th class="text-center">
                                             @if ($account->activated == false)
-                                                <button class="btn btn-success btn-sm confirmation"
+                                            <button class="btn btn-success btn-sm confirmation"
                                                 id="{{ $account->id }}"
                                                 name="{{ $account->fname.' '.$account->lname }}"
                                                 phone="{{ $account->phone }}"
                                                 email="{{ $account->email }}"
                                                 date="{{ date("F d, Y", strtotime($account->created_at)) }}"
-                                                data-toggle="modal" data-target="#confirmation-to-activate">Activate</button>
+                                                data-toggle="modal" 
+                                                data-target="#activate">
+                                                <i data-feather="check" class="mr-1"></i>
+                                                Activate
+                                            </button>
                                             @else
-                                                <button class="btn btn-primary btn-sm">Deactivate</button>
+                                            <button class="btn btn-primary btn-sm confirmation"
+                                                id="{{ $account->id }}"
+                                                name="{{ $account->fname.' '.$account->lname }}"
+                                                phone="{{ $account->phone }}"
+                                                email="{{ $account->email }}"
+                                                date="{{ date("F d, Y", strtotime($account->created_at)) }}"
+                                                data-toggle="modal"
+                                                data-target="#deactivate">
+                                                <i data-feather="x" class="mr-1"></i>
+                                                Deactivate
+                                            </button>
                                             @endif
                                         </th>
                                         <th>
@@ -130,56 +115,116 @@
             </div>
         </div>
     </div>
-    <!-- Modals -->
-    <div class="modal fade in" tabindex="-1" role="dialog" id="confirmation-to-activate">
+
+    <div id="activate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="activate" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-primary-to-secondary">
-                    <h5 class="modal-title text-white">Confirmation to Activate Account</h5>
+                    <h5 id="title" class="modal-title text-white">Confirmation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="text-white" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to activate this account?</p>
-                <span id="name" class="text-capitalize"></span><br />
-                <span id="phone"></span><br />
-                <span id="email"></span><br />
-                <span id="date"></span>
-            </div>
-            <div class="modal-footer">
-                <form action="{{ route('activate') }}" method="POST">
-                    @csrf
-                    <input type="hidden" id="id" name="id" value="" />
-                    <button type="submit" class="btn btn-success">Activate</button>
-                </form>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to Activate this Account?</p>
+                    <span class="name text-capitalize font-weight-bold"></span><br />
+                    <span class="phone"></span><br />
+                    <span class="email"></span><br />
+                    Date Joined: <span class="date"></span>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('activate') }}" method="POST">
+                        @csrf
+                        <input type="hidden" class="id" name="id" value="" />
+                        <button type="submit" class="btn btn-success">
+                            <i data-feather="check" class="mr-1"></i>Activate
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i data-feather="chevron-left" class="mr-1"></i>Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    @isset($success)
-    <!-- Modals -->
-    <div class="modal fade in" tabindex="-1" role="dialog" id="notification-to-activate">
+    <div id="deactivate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deactivate" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-primary-to-secondary">
-                    <h5 class="modal-title text-white">Activation Request</h5>
+                    <h5 id="title" class="modal-title text-white">Confirmation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="text-white" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>You have successfully activated the account for:</p>
-                <span id="name" class="text-capitalize">{{ $auser->fname.' '.$auser->lname }}</span><br />
-                <span id="phone">{{ $auser->phone }}</span><br />
-                <span id="email">{{ $auser->email }}</span><br />
-                <span id="date">{{ $auser->date }}</span>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="question">Are you sure to Deactivate this Account?</p>
+                    <span class="name text-capitalize font-weight-bold"></span><br />
+                    <span class="phone"></span><br />
+                    <span class="email"></span><br />
+                    Date Joined: <span class="date"></span>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('activate') }}" method="POST">
+                        @csrf
+                        <input type="hidden" class="id" name="id" value="" />
+                        <button type="submit" class="btn btn-primary">
+                            <i data-feather="x" class="mr-1"></i>Deactivate
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i data-feather="chevron-left" class="mr-1"></i>Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    @endisset
+
+    @if (session('result'))
+    <script>
+        $(document).ready(function(){
+            $('#result').modal('show');
+        });
+    </script>
+
+    <div id="result" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmation" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-primary-to-secondary">
+                    <h5 id="title" class="modal-title text-white">Success Operation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="question">Success! The Account is now 
+                        <b class="text-capitalize">
+                        @if (Session::get('result')->activated == true)    
+                        <span class="text-success">
+                            <i data-feather="check" class="feather-lg"></i>
+                            Active.
+                        </span>
+                        @else
+                        <span class="text-warning">
+                            <i data-feather="alert-triangle" class="feather-lg"></i>
+                            Pending.
+                        </span>
+                        @endif
+                        </b>
+                    </p> 
+                    <span class="name text-capitalize font-weight-bold">{{ Session::get('result')->fname.' '.Session::get('result')->lname }}</span><br />
+                    <span class="phone">{{ Session::get('result')->phone }}</span><br />
+                    <span class="email">{{ Session::get('result')->email }}</span><br />
+                    Date Joined: <span class="date">{{ date("F d, Y", strtotime(Session::get('result')->date)) }}</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i data-feather="chevron-left" class="mr-1"></i>Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @endif
 @endsection
