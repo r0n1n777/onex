@@ -225,6 +225,5 @@
             </div>
         </div>
     </div>
-
     @endif
 @endsection
