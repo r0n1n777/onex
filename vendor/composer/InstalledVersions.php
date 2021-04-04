@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '57de8d4c99bbc132ddc2a4b8ce5b0a753ebc20f9',
+    'reference' => 'a376a48ccf5c9c5657fc11e58699d705c29ba4be',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -236,6 +236,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '8c3d0a3f6af734494ad8f6fbbee0ba92422859f3',
+    ),
+    'htmlmin/htmlmin' => 
+    array (
+      'pretty_version' => 'v8.0.0',
+      'version' => '8.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e67fe976e3fd1e92568341ce84f338fa4c0ffc47',
     ),
     'illuminate/auth' => 
     array (
@@ -504,7 +513,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '57de8d4c99bbc132ddc2a4b8ce5b0a753ebc20f9',
+      'reference' => 'a376a48ccf5c9c5657fc11e58699d705c29ba4be',
     ),
     'laravel/sail' => 
     array (
@@ -595,6 +604,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
+    ),
+    'mrclay/minify' => 
+    array (
+      'pretty_version' => '2.3.3',
+      'version' => '2.3.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1928e89208d28e91427b2f13b67acdbd8cd01ac9',
     ),
     'mtdowling/cron-expression' => 
     array (
