@@ -116,9 +116,8 @@
                                 <a class="nav-link" href="{{ route('affiliates') }}">
                                     Affiliates
                                 </a>
-                                <a class="nav-link" href="#!">
+                                <a class="nav-link" href="{{ route('binary') }}">
                                     Binary Tree
-                                    <span class="badge badge-primary-soft text-primary ml-auto">Maintenance</span>
                                 </a>
                                 <a class="nav-link" href="#!">
                                     Earnings
