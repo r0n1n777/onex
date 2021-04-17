@@ -42,10 +42,10 @@ class PayoutController extends Controller
         // COMPUTE EARNINGS
         $earnings = count($directInvites) * 100;
 
-        /* COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
-        //if (count($directInvites) >= 5){
-        //  $additionalPayout = (count($directInvites) - 5) * 200;
-        }*/
+        // COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
+        if (count($directInvites) >= 5){
+            $additionalPayout = (count($directInvites) - 5) * 200;
+        }
 
         // GET TIER LEVEL OF AUTH USER
         $tierLevel = $tier->tierLevel;
