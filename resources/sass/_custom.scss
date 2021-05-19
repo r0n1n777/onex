@@ -1,3 +1,10 @@
+// Sizes Depending on Window Size
+
+@media screen and (max-width: 600px) {
+    .binary-name {
+        transform: rotate(-90deg);
+    }
+  }
 
 // Custom CSS
 
@@ -34,4 +41,15 @@
     object-position: center; /* Center the image within the element */
     height: 500px;
     width: 500px;
+}
+
+// CUSTOM SIZES
+
+.binary-img {
+    max-width: 150px;
+    width:100%;
+}
+
+.text-responsive {
+    font-size: calc(100% + 1vw + 1vh);
 }

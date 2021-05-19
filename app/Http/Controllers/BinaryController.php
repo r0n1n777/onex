@@ -20,11 +20,20 @@ class BinaryController extends Controller
         $tier = (new HomeController)->tier($user->id);
         $affiliates = $tier->directInvites;
         $affiliatesPending = $tier->directInvitesPending;
+        $regularDirectInvites = (new HomeController)->getRegularInvites($user->id);
+
+        // GET ALL REGULAR MEMBERS
 
         return view('pages.binary')->with('path', $path)
                                     ->with('user', $user)
                                     ->with('tier', $tier)
                                     ->with('affiliates', $affiliates)
-                                    ->with('affiliatesPending', $affiliatesPending);
+                                    ->with('affiliatesPending', $affiliatesPending)
+                                    ->with('regularDirectInvites', $regularDirectInvites);
+    }
+
+    public function add(Request $request)
+    {
+        return redirect('/binary');
     }
 }

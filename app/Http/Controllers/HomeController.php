@@ -72,6 +72,21 @@ class HomeController extends Controller
         return $data;
     }
 
+    public function getRegularInvites($id)
+    {
+        // GET ALL DIRECT INVITES THAT ARE REGULAR
+        $regularDirectInvites = array();
+        $unfilteredRegularDirectInvites = $this->getInvites($id, 'activated');
+        foreach ($unfilteredRegularDirectInvites as $member) {
+            $q = $this->getInvites($member->id, 'activated');
+            if (count($q) >= 5) {
+                array_push($regularDirectInvites, $member);
+            }
+        }
+
+        return $regularDirectInvites;
+    }
+
     public function dashboard($id)
     {
 
@@ -89,7 +104,7 @@ class HomeController extends Controller
 
         // GET EARNINGS AND BALANCE INFO
         $payout = (new PayoutController)->getEarningsBalance($id);
-        
+
         $data = array(  'tierLevel' => $tier->tierLevel,
                         'tierTitle' => $tier->tierTitle,
                         'directInvites' => $directInvites,
