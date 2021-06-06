@@ -98,7 +98,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // Send confirmation TEXT to the user
+        /* Send confirmation TEXT to the user
         $basic  = new \Vonage\Client\Credentials\Basic('4c01d7e7', 'fqxY50yduW8N1P1M');
         $client = new \Vonage\Client($basic);
 
