@@ -25,5 +25,7 @@
         "ssri": ">=8.0.1",
         "vue-template-compiler": "^2.6.14"
     },
-    "dependencies": {}
+    "dependencies": {
+        "css-what": "^5.0.1"
+    }
 }
