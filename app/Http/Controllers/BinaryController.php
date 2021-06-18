@@ -97,7 +97,7 @@ class BinaryController extends Controller
 
         $total = ($pairs * 300) + ($added * 100);
 
-        return max(number_format($total, 2), 0);
+        return $total;
     }
     
     public function show($id = null)
@@ -115,7 +115,7 @@ class BinaryController extends Controller
             $binaryId = $id;
         }
 
-        $binaryEarnings = $this->binaryEarnings($binaryId);
+        $binaryEarnings = number_format($this->binaryEarnings($binaryId), 2);
 
         // GET NUMBER OF LEFTS AND RIGHTS
         $binaryUsersLeft = 0;

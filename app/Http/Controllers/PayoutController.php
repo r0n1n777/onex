@@ -30,9 +30,8 @@ class PayoutController extends Controller
         // SET INITIAL EARNINGS AND BALANCE
         $earnings = 0;
         $balance = 0;
-        $totalpayout = 0;
-        $additionalPayout = 0;
         $binaryEarnings = 0;
+        $totalpayout = 0;
 
         // GET TIER LEVEL OF AUTH USER
         $tier = (new HomeController)->tier($id);
@@ -47,7 +46,7 @@ class PayoutController extends Controller
         $tierLevel = $tier->tierLevel;
 
         // GET EARNINGS FROM BINARY
-        
+        $binaryEarnings = (new BinaryController)->binaryEarnings($id);
 
         // GET ALL THE PAYOUTS AND COMPUTE HOW MUCH TO SUBSTRACT FROM THE BALANCE
         $payouts = Payouts::where('uid', $id)->where('status', true)->get();
@@ -55,10 +54,10 @@ class PayoutController extends Controller
             $totalpayout += $payout->amount;
         }
 
-        $earnings += $additionalPayout;
+        $earnings += $binaryEarnings;
         $balance = $earnings - $totalpayout;
 
-        $data = (object) array('earnings' => max(number_format($earnings), 0), 'balance' => max(number_format($balance), 0));
+        $data = (object) array('earnings' => max(number_format($earnings, 2), 0), 'balance' => max(number_format($balance, 2), 0));
         return $data;
     }
 }
