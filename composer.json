@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "htmlmin/htmlmin": "^8.0",
         "intervention/image": "^2.5",
-        "laravel/framework": "^8.24.0",
+        "laravel/framework": "^8.40.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "vonage/client": "^2.4"
