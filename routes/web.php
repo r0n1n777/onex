@@ -35,6 +35,7 @@ Route::get('affiliates', 'App\Http\Controllers\AffiliateController@show')->name(
 
 // BINARY
 Route::get('binary', 'App\Http\Controllers\BinaryController@show')->name('binary');
+Route::get('binary/{id}', 'App\Http\Controllers\BinaryController@show')->name('binary-user');
 Route::post('binary/add', 'App\Http\Controllers\BinaryController@add')->name('binary-add');
 
 // ACCOUNT

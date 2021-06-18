@@ -32,6 +32,7 @@ class PayoutController extends Controller
         $balance = 0;
         $totalpayout = 0;
         $additionalPayout = 0;
+        $binaryEarnings = 0;
 
         // GET TIER LEVEL OF AUTH USER
         $tier = (new HomeController)->tier($id);
@@ -42,20 +43,11 @@ class PayoutController extends Controller
         // COMPUTE EARNINGS
         $earnings = count($directInvites) * 100;
 
-        // COMPUTE ADDITIONAL AMOUNT BASE ON NUMBER OF INVITES AFTER FIRST 5 DIRECT INVITES
-        if (count($directInvites) >= 5){
-            $additionalPayout = (count($directInvites) - 5) * 200;
-        }
-
         // GET TIER LEVEL OF AUTH USER
         $tierLevel = $tier->tierLevel;
 
-        /* LOOP THROUGH INVITES AND CHECK IF NEED TO ADD AMOUNT BASE ON TIER
-        foreach ($directInvites as $invite){
-            if ($invite->tierLevel >= $tierLevel){
-                $earnings += $amount;
-            }
-        }*/
+        // GET EARNINGS FROM BINARY
+        
 
         // GET ALL THE PAYOUTS AND COMPUTE HOW MUCH TO SUBSTRACT FROM THE BALANCE
         $payouts = Payouts::where('uid', $id)->where('status', true)->get();

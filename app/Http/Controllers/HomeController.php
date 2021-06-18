@@ -76,11 +76,13 @@ class HomeController extends Controller
     {
         // GET ALL DIRECT INVITES THAT ARE REGULAR
         $regularDirectInvites = array();
-        $unfilteredRegularDirectInvites = $this->getInvites($id, 'activated');
+        $unfilteredRegularDirectInvites = User::where('referrer_id', $id)->where('activated', true)->get()->toArray();
         foreach ($unfilteredRegularDirectInvites as $member) {
-            $q = $this->getInvites($member->id, 'activated');
+            $q = $this->getInvites($member['id'], 'activated');
             if (count($q) >= 5) {
-                array_push($regularDirectInvites, $member);
+                if ($member['binary_referrer_id'] == null) {
+                    array_push($regularDirectInvites, $member);
+                }
             }
         }
 

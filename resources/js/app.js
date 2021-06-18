@@ -5,3 +5,5 @@ require('./template.js');
 require('./admin.js');
 
 require('./pictureUpload.js');
+
+require('./binary.js');
