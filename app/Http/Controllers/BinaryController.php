@@ -194,7 +194,7 @@ class BinaryController extends Controller
             }
         }
         else {
-            return redirect()->back()->withErrors(['You are not allowed yet to add members in your Binary Tree. You must have at least 5 direct active invites before continuing.']);
+            return redirect()->back()->withErrors(['You are not yet allowed to add members in your Binary Tree. You must have at least 5 direct active invites before continuing.']);
         }
     }
 }
