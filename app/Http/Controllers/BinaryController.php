@@ -155,40 +155,46 @@ class BinaryController extends Controller
     public function add(Request $request)
     {
 
-        $user = User::find($request->user_id);
-
-        // CHECK IF A REGULAR MEMBER DEPENDING ON THE INVITES
-        $invites = (new HomeController)->getInvites($request->user_id, 'activated');
-        if (count($invites) >= 5){
-            // CHECK IF ALREADY ADDED TO BINARY
-            if ($user->binary_referrer_id == null){
-                // CHECK IF THE POSITION EITHER LEFT OR RIGHT IS TAKEN
-                $pos = User::where('binary_referrer_id', $request->referrer_id)->get();
-                $taken = false;
-                foreach ($pos as $p){
-                    if ($p->binary_position == $request->position){
-                        $taken = true;
+        // CHECK IF THE AUTH USER IS A REGULAR
+        $directInvites = User::where('referrer_id', Auth::user()->id)->get();
+        if ($directInvites >= 5) {
+            $user = User::find($request->user_id);
+            // CHECK IF A REGULAR MEMBER DEPENDING ON THE INVITES
+            $invites = (new HomeController)->getInvites($request->user_id, 'activated');
+            if (count($invites) >= 5){
+                // CHECK IF ALREADY ADDED TO BINARY
+                if ($user->binary_referrer_id == null){
+                    // CHECK IF THE POSITION EITHER LEFT OR RIGHT IS TAKEN
+                    $pos = User::where('binary_referrer_id', $request->referrer_id)->get();
+                    $taken = false;
+                    foreach ($pos as $p){
+                        if ($p->binary_position == $request->position){
+                            $taken = true;
+                        }
                     }
-                }
-                if ($taken == false){
-                    // ADD THE USER TO THE BINARY
-                    $addToBinary = Binary::find($request->user_id);
-                    $addToBinary->binary_referrer_id = $request->referrer_id;
-                    $addToBinary->binary_position = $request->position;
-                    $addToBinary->save();
+                    if ($taken == false){
+                        // ADD THE USER TO THE BINARY
+                        $addToBinary = Binary::find($request->user_id);
+                        $addToBinary->binary_referrer_id = $request->referrer_id;
+                        $addToBinary->binary_position = $request->position;
+                        $addToBinary->save();
 
-                    return redirect()->back();
-                }
+                        return redirect()->back();
+                    }
+                    else {
+                        return redirect()->back()->withErrors(['The position for this Binary is already taken, please choose another one.']);
+                    }
+                }   
                 else {
-                    return redirect()->back()->withErrors(['The position for this Binary is already taken, please choose another one.']);
+                    return redirect()->back()->withErrors(['This Member is already in a Binary Tree.']);
                 }
-            }   
+            }
             else {
-                return redirect()->back()->withErrors(['This Member is already in a Binary Tree.']);
+                return redirect()->back()->withErrors(['This Member doesn\'t have a Regular Status yet. He/She can\'t be added to your Binary Tree.']);
             }
         }
         else {
-            return redirect()->back()->withErrors(['This Member doesn\'t have a Regular Status yet. He/She can\'t be added to your Binary Tree.']);
+            return redirect()->back()->withErrors(['You are not allowed yet to add members in your Binary Tree. You must have at least 5 direct active invites before continuing.']);
         }
     }
 }
