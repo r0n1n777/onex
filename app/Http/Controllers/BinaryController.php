@@ -157,7 +157,7 @@ class BinaryController extends Controller
 
         // CHECK IF THE AUTH USER IS A REGULAR
         $directInvites = User::where('referrer_id', Auth::user()->id)->get();
-        if ($directInvites >= 5) {
+        if (count($directInvites) >= 5) {
             $user = User::find($request->user_id);
             // CHECK IF A REGULAR MEMBER DEPENDING ON THE INVITES
             $invites = (new HomeController)->getInvites($request->user_id, 'activated');
